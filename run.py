@@ -2,6 +2,7 @@ import requests
 import re
 import tarfile
 import pycodestyle
+import subprocess
 
 from html.parser import HTMLParser
 
@@ -28,7 +29,7 @@ class PythonVersionHTMLParser(HTMLParser):
         self.__versions = []
     
     def handle_data(self, data):
-        m = re.match('3\.[0-9]{1,2}\.[0-9]{1,2}', data)
+        m = re.match('3\\.[0-9]{1,2}\\.[0-9]{1,2}', data)
         
         if m is not None:
             self.__versions.append(m.group(0))
@@ -46,7 +47,7 @@ class PythonTarballHTMLParser(HTMLParser):
         self.__tarball_url = None
         
     def handle_data(self, data):
-        m = re.match(f'Python-{self.__prefix}\.((tar\.gz)|(tar\.(bz2))|(tgz))', data)
+        m = re.match(f'Python-{self.__prefix}\\.((tar\\.gz)|(tar\\.(bz2))|(tgz))', data)
         
         if m is not None and self.__filename is None:
             self.__tarball_url = f'{self.__url}/{m.group(0)}'
@@ -82,6 +83,8 @@ for v in parser.versions():
             tr = tarfile.open(local_path)
             tr.extractall('./work')
             
+            print(local_path)
+            #subprocess.run(['./venv/bin/pycodestyle', ''])
         else:
             print(f'do now know how to extract .... {local_path}')
         
