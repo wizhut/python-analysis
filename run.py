@@ -1,7 +1,6 @@
 import requests
 import re
 import tarfile
-import pycodestyle
 import subprocess
 
 from html.parser import HTMLParser
@@ -82,9 +81,7 @@ for v in parser.versions():
         if local_path.endswith(('gz', 'bz2')):
             tr = tarfile.open(local_path)
             tr.extractall('./work')
-            
-            print(local_path)
-            #subprocess.run(['./venv/bin/pycodestyle', ''])
+            subprocess.run(['uv', 'run', 'ruff', 'check', local_path, '-- --format=json --output-file='])
         else:
             print(f'do now know how to extract .... {local_path}')
         
