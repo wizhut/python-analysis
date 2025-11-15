@@ -85,7 +85,6 @@ for v in parser.versions():
             tr = tarfile.open(local_path)
             tr.extractall('./work')
             subprocess.run(
-                ['uv', 'run', 'ruff', 'check', '--output-file', f'results/{p.directory_name()}.text', '--select', 'E,W',
-                 f'work/{p.directory_name()}'])
+                ['uv', 'run', 'ruff', 'check', '--output-file', f'results/{p.directory_name()}.text', '--select', 'E,W', f'work/{p.directory_name()}/Lib'])
         else:
             print(f'do now know how to extract .... {local_path}')
